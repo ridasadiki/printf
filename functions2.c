@@ -91,3 +91,95 @@ int print_reverse(va_list types, char buffer[],
 	return (count);
 
 }
+
+/**** PRINT A STRING IN ROT13 ****/
+/*
+ * print_rot13string - rot13 is a string to print
+ * @types: arguments list
+ * @buffer: handle the buffer array
+ * @flags: how many flags are active
+ * @precision: specific precision
+ * @size: put the exact size
+ * @width: easy is the width
+ * Return: how many charachters are printed
+ */
+int print_rot13string(va_list types, char buffer[],
+		int flags, int width, int precision, int size)
+{
+	char x;
+	unsigned int i, j;
+	char *str;
+	int count = 0;
+	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+
+	str = va_arg(types, char *);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(size);
+	UNUSED(buffer);
+	UNUSED(precision);
+
+	if (str == NULL)
+		str = "(AHYY)";
+	for (i = 0; str[i]; i++)
+	{
+		for (j = 0; in[j]; j++)
+		{
+			if (in[j] == str[i])
+			{
+				x = out[j];
+				write(1, &x, 1);
+				count++;
+				break;
+			}
+		}
+		if (!in[j])
+		{
+			x = str[i];
+			write(1, &x, 1);
+			count++;
+		}
+	}
+	return (count);
+}
+
+/**** print NON PRINTABLE ****/
+/*
+ * print_non_printable - ascii codes in hexadecimal of non print charachters
+ * @types: arguments list
+ * @buffer: handle the buffer array
+ * @flags: how many flags are active
+ * @precision: specific precision
+ * @size: put the exact size
+ * @width: easy is the width
+ * Return: how many charachters are printed
+ */
+int print_non_printable(va_list types, char buffer[],
+		int size, int precision, int flags, int width)
+{
+	char *str = va_arg(types, char *);
+	int i = 0, offset = 0;
+
+	UNUSED(size);
+	UNUSED(precision);
+	UNUSED(flags);
+	UNUSED(width);
+
+	if (str == NULL)
+		return (write(1, "(null)", 6));
+
+	while (str[i] != '\0')
+	{
+		if (is_printable(str[i]))
+			buffer[i + offset] = str[i];
+		else
+			offset += append_hexa_code(str[i], buffer, i + offset);
+		i++;
+	}
+
+	buffer[i + offset] = '\0';
+
+	return (write(1, buffer, i + offset));
+}
+
