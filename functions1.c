@@ -135,7 +135,8 @@ int print_hexa(va_list types, char map_to[],
 int print_hexa_upper(va_list types, char buffer[],
 		int flags, int width, int precision, int size)
 {
-	return (print_hexa(types, "0123456789ABCDEF", buffer, flags, 'X', width, precision, size));
+	return (print_hexa(types, "0123456789ABCDEF", buffer,
+				flags, 'X', width, precision, size));
 }
 
 /**** PRINT UNSIGNED NUMBER HEXADECIMAL ****/
@@ -152,5 +153,6 @@ int print_hexa_upper(va_list types, char buffer[],
 int print_hexadecimal(va_list types, char buffer[],
 		int flags, int width, int precision, int size)
 {
-		return (print_hexa(types, "0123456789ABCDEF", buffer, flags, 'X', width, precision, size));
+		return (print_hexa(types, "0123456789ABCDEF",
+					buffer, flags, 'X', width, precision, size));
 }

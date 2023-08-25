@@ -22,11 +22,12 @@
 #define S_SHORT 1
 #define S_LONG 2
 
-/*
- * @fmt: The format
- * @fn: The associated function
+/**
  * struct fmt - Struct op
+ * @fmt: format
+ * @fn: associated function
  */
+
 struct fmt
 {
 	char fmt;
